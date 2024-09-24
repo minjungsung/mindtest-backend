@@ -1,0 +1,15 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run mindtests",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/mindtests/main.py",
+            "console": "integratedTerminal",
+            "python": "~/venv/bin/python",
+            "envFile": "${workspaceFolder}/.env",
+            "cwd": "${workspaceFolder}/mindtests"
+        }
+    ]
+}
