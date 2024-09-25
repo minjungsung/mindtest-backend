@@ -16,13 +16,13 @@ class ServerStub(object):
         """
         self.web_to_server = channel.unary_unary(
                 '/mindtest.Server/web_to_server',
-                request_serializer=mindtest__pb2.WebToServiceRequest.SerializeToString,
-                response_deserializer=mindtest__pb2.WebToServiceResponse.FromString,
+                request_serializer=mindtest__pb2.WebToServerRequest.SerializeToString,
+                response_deserializer=mindtest__pb2.WebToServerResponse.FromString,
                 )
         self.server_to_web = channel.unary_unary(
                 '/mindtest.Server/server_to_web',
-                request_serializer=mindtest__pb2.ServiceToWebRequest.SerializeToString,
-                response_deserializer=mindtest__pb2.ServiceToWebResponse.FromString,
+                request_serializer=mindtest__pb2.ServerToWebRequest.SerializeToString,
+                response_deserializer=mindtest__pb2.ServerToWebResponse.FromString,
                 )
 
 
@@ -46,13 +46,13 @@ def add_ServerServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'web_to_server': grpc.unary_unary_rpc_method_handler(
                     servicer.web_to_server,
-                    request_deserializer=mindtest__pb2.WebToServiceRequest.FromString,
-                    response_serializer=mindtest__pb2.WebToServiceResponse.SerializeToString,
+                    request_deserializer=mindtest__pb2.WebToServerRequest.FromString,
+                    response_serializer=mindtest__pb2.WebToServerResponse.SerializeToString,
             ),
             'server_to_web': grpc.unary_unary_rpc_method_handler(
                     servicer.server_to_web,
-                    request_deserializer=mindtest__pb2.ServiceToWebRequest.FromString,
-                    response_serializer=mindtest__pb2.ServiceToWebResponse.SerializeToString,
+                    request_deserializer=mindtest__pb2.ServerToWebRequest.FromString,
+                    response_serializer=mindtest__pb2.ServerToWebResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -76,8 +76,8 @@ class Server(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/mindtest.Server/web_to_server',
-            mindtest__pb2.WebToServiceRequest.SerializeToString,
-            mindtest__pb2.WebToServiceResponse.FromString,
+            mindtest__pb2.WebToServerRequest.SerializeToString,
+            mindtest__pb2.WebToServerResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -93,7 +93,7 @@ class Server(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/mindtest.Server/server_to_web',
-            mindtest__pb2.ServiceToWebRequest.SerializeToString,
-            mindtest__pb2.ServiceToWebResponse.FromString,
+            mindtest__pb2.ServerToWebRequest.SerializeToString,
+            mindtest__pb2.ServerToWebResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

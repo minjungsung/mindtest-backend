@@ -77,8 +77,23 @@ WSGI_APPLICATION = 'mindplay.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'mindtest-db',
+        'USER': 'mindtest-user',
+        'PASSWORD': 'mindtest-password',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    },
+    'mongo': {
+        'ENGINE': 'djongo',
+        'NAME': 'mindtest-db',
+        'CLIENT': {
+            'host': 'localhost',
+            'port': 27017,
+            'username': 'mindtest-user',
+            'password': 'mindtest-password',
+            'authSource': 'admin',
+        },
     }
 }
 

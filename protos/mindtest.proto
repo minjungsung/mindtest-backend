@@ -63,20 +63,20 @@ message Answer {
     string selected_option = 2;
 }
 
-message WebToServiceRequest {
+message WebToServerRequest {
     int32 test_id = 1;
 }
 
-message WebToServiceResponse {
+message WebToServerResponse {
     MindTest test = 1;
 }
 
-message ServiceToWebRequest {
+message ServerToWebRequest {
     int32 test_id = 1;
     repeated Answer answers = 2;
 }
 
-message ServiceToWebResponse {
+message ServerToWebResponse {
     oneof message {
         MBTIResultResponse mbti_result = 1;
         EnneagramResultResponse enneagram_result = 2;
@@ -100,6 +100,6 @@ message BigFiveResultResponse {
 }
 
 service Server {
-    rpc web_to_server(WebToServiceRequest) returns (WebToServiceResponse);
-    rpc server_to_web(ServiceToWebRequest) returns (ServiceToWebResponse);
+    rpc web_to_server(WebToServerRequest) returns (WebToServerResponse);
+    rpc server_to_web(ServerToWebRequest) returns (ServerToWebResponse);
 }
