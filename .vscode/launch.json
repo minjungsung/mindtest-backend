@@ -7,9 +7,24 @@
             "request": "launch",
             "program": "${workspaceFolder}/mindtests/main.py",
             "console": "integratedTerminal",
-            "python": "~/venv/bin/python",
-            "envFile": "${workspaceFolder}/.env",
-            "cwd": "${workspaceFolder}/mindtests"
+            "envFile": "${workspaceFolder}/mindtests/.env",
+            "cwd": "${workspaceFolder}/mindtests",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/mindtests/pyproto:${workspaceFolder}/mindtests:$PYTHONPATH"
+            }
+        },
+        {
+            "name": "Configure developement environment ",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/mindtests/manage.py",
+            "console": "integratedTerminal",
+            "args": ["runserver", "0.0.0.0:8000"],
+            "envFile": "${workspaceFolder}/mindtests/.env",
+            "cwd": "${workspaceFolder}/mindtests",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/mindtests/pyproto:${workspaceFolder}/mindtests:$PYTHONPATH"
+            }
         }
     ]
 }

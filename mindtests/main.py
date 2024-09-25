@@ -1,41 +1,43 @@
-import sys
 import os
+import sys
+import grpc
 import asyncio
 from concurrent import futures
+from dotenv import load_dotenv
 
-import grpc
-from mindtests.pyproto import mindtest_pb2_grpc
-from mindtests.pyproto import mindtest_pb2
-
-# Ensure pyproto is in the Python path
-print(os.path.join(os.path.dirname(__file__), "pyproto"))
-
-# import pyproto.mindtest_pb2 as mindtest_pb2
-# import pyproto.mindtest_pb2_grpc as mindtest_pb2_grpc
+from pyproto import mindtest_pb2, mindtest_pb2_grpc
 
 
 class MindTestService(mindtest_pb2_grpc.ServerServicer):
     def web_to_server(self, request, context):
-        return mindtest_pb2.WebToServiceResponse(
-            test=mindtest_pb2.MindTest(id=1, type=mindtest_pb2.MindTestType.MBTI)
-        )
+        return mindtest_pb2.WebToServiceResponse(test=mindtest_pb2.MindTest(id=1, type=mindtest_pb2.MindTestType.MBTI))
 
     def server_to_web(self, request, context):
-        return mindtest_pb2.ServiceToWebResponse(
-            mbti_result=mindtest_pb2.MBTIResultResponse(
-                type=mindtest_pb2.MBTIType.INTJ,
-                description="Introverted, Intuitive, Thinking, Judging",
-            )
-        )
-
+        return mindtest_pb2.ServiceToWebResponse(mbti_result=mindtest_pb2.MBTIResultResponse(type=mindtest_pb2.MBTIType.INTJ, description="Introverted, Intuitive, Thinking, Judging"))
 
 def serve():
+    # Load environment variables from .env file
+    load_dotenv()
+    # Replace placeholder with the current working directory
+    project_root = os.getcwd()
+    pythonpath = os.getenv('PYTHONPATH').replace('PROJECT_ROOT', project_root)
+
+    # Set the PYTHONPATH environment variable dynamically
+    os.environ['PYTHONPATH'] = pythonpath
+
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     mindtest_pb2_grpc.add_ServerServicer_to_server(MindTestService(), server)
-    server.add_insecure_port("[::]:50051")
+
+    server.add_insecure_port(f'[::]:{os.environ.get("GRPC_SERVER_PORT")}')
     server.start()
-    server.wait_for_termination()
+    
+    print(f"Server started on port {os.environ.get('GRPC_SERVER_PORT')}")
+    server.wait_for_termination(None)
 
-
-if __name__ == "__main__":
-    serve()
+if __name__ == '__main__':
+    try:    
+        serve()
+    except KeyboardInterrupt:
+        print("Server interrupted by user")
+    except Exception as e:
+        print(f"Server error: {e}")

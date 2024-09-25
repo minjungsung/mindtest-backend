@@ -2,16 +2,9 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Run gRPC server",
-            "type": "shell",
-            "command": "python",
-            "args": ["mindtests/main.py"],
-            "problemMatcher": [],
-        },
-        {
             "label": "Generate Python Protobuf",
             "type": "shell",
-            "command": "python",
+            "command": "${workspaceFolder}/mindtests/venv/bin/python",
             "args": [
                 "-m", "grpc_tools.protoc",
                 "-I=./protos",
